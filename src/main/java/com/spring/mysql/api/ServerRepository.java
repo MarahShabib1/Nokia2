@@ -4,4 +4,9 @@ import org.springframework.data.aerospike.repository.AerospikeRepository;
 
 public interface ServerRepository extends AerospikeRepository<Server, Integer> {
 
+    	Server findByFreeMemoryGreaterThanEqual(int size);
+
+		
+	
+	
 }

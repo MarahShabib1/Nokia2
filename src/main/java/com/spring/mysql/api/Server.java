@@ -15,18 +15,14 @@ public class Server {
 	@Id
 	private String key;
 
-		public String getKey() {
-		return key;
-	}
-	public void setKey(String key) {
-		this.key = key;
-	}
+
 		@Field
 	    private String name;
 		@Field
-	    private int RAM;
+	    private int ram; 
 	    @Field
-	    private int memoryAllocated;
+	    private int freeMemory;
+	    
 	    
 	    
 	    
@@ -36,18 +32,28 @@ public class Server {
 		public void setName(String name) {
 			this.name = name;
 		}
-		public int getRAM() {
-			return RAM;
+	
+		public int getFreeMemory() {
+			return freeMemory;
 		}
-		public void setRAM(int rAM) {
-			RAM = rAM;
+		public void setFreeMemory(int freeMemory) {
+			this.freeMemory = freeMemory;
 		}
-		public int getMemoryAllocated() {
-			return memoryAllocated;
+	
+		public int getRam() {
+			return ram;
 		}
-		public void setMemoryAllocated(int memoryAllocated) {
-			this.memoryAllocated = memoryAllocated;
+		public void setRam(int ram) {
+			this.ram = ram;
 		}
+		public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
+	}
+		
+
 	
 	
 	

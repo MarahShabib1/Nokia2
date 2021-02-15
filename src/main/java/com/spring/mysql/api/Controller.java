@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,11 +32,10 @@ public class Controller {
 		 LocalDateTime myObj = LocalDateTime.now();
 		 
 		 Key key=new Key("test","test",myObj.toString());
-		// Buffer.bytesToHexString(key.digest);
 		 server.setKey( Buffer.bytesToHexString(key.digest));
 		 server.setName("New");
-		 server.setRAM(50);
-		 server.setMemoryAllocated(0);
+		 server.setRam(50);
+		 server.setFreeMemory(50);
 		 serverRepository.save(server);
 		 return server;	 
 	 }
@@ -44,10 +44,37 @@ public class Controller {
 	    @GetMapping("server")
 	     public List<Server> getAllServers() {
 
-	        List<Server> servers = new ArrayList<>();
-	        serverRepository.findAll()
-	                .forEach(servers::add);
+	        List<Server> servers = 
+	        (List<Server>) serverRepository.findAll();
+	               
 	        return servers;
+	     }
+	    
+	    @GetMapping("allocate/{size}")
+	     public Server free(@PathVariable int size ) {
+
+	       Server server= serverRepository.findByFreeMemoryGreaterThanEqual(size); 
+	       if(server!=null) {
+	       server.setFreeMemory(server.getFreeMemory()-size);
+	       serverRepository.save(server); 
+	       
+	       }else {
+	    	   
+	    	   stateMachine.start();
+	       	stateMachine.sendEvent("wait");
+	       if(stateMachine.getState().getId().toString()=="active") {
+	    	  	  server=new Server();
+	 	  		 LocalDateTime myObj = LocalDateTime.now(); 
+	 	  		 Key key=new Key("test","test",myObj.toString());
+	 	  		 server.setKey( Buffer.bytesToHexString(key.digest));
+	 	  		 server.setName("New");
+	 	  		 server.setRam(size);
+	 	  		 server.setFreeMemory(0);
+	 	  		 serverRepository.save(server);    
+	       }
+      
+	       }
+	        return server;
 	     }
 	 
 	 
