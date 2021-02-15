@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.statemachine.StateMachine;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +53,7 @@ public class Controller {
 	     }
 	    
 	    @GetMapping("allocate/{size}")
+	    @Transactional(isolation=Isolation.SERIALIZABLE)
 	     public Server free(@PathVariable int size ) {
 
 	       Server server= serverRepository.findByFreeMemoryGreaterThanEqual(size); 
@@ -68,9 +71,10 @@ public class Controller {
 	 	  		 Key key=new Key("test","test",myObj.toString());
 	 	  		 server.setKey( Buffer.bytesToHexString(key.digest));
 	 	  		 server.setName("New");
-	 	  		 server.setRam(size);
-	 	  		 server.setFreeMemory(0);
+	 	  		 server.setRam(100);
+	 	  		 server.setFreeMemory(100-size);
 	 	  		 serverRepository.save(server);    
+	 	  		 
 	       }
       
 	       }
