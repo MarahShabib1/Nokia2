@@ -1,4 +1,4 @@
-package com.spring.mysql.api;
+package com.cloud.provider.api.Configuration;
 
 import java.util.concurrent.TimeUnit;
 
@@ -9,8 +9,10 @@ import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.StateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
+@EnableTransactionManagement
 @EnableStateMachine
 public class SimpleStateMachineConfiguration 
   extends StateMachineConfigurerAdapter<String, String> {

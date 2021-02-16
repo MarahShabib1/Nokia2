@@ -1,4 +1,4 @@
-package com.spring.mysql.api;
+package com.cloud.provider.api.model;
 
 import javax.annotation.Generated;
 

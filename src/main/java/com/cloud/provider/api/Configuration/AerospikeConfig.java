@@ -1,4 +1,4 @@
-package com.spring.mysql.api;
+package com.cloud.provider.api.Configuration;
 
 
 import com.aerospike.client.AerospikeClient;
@@ -28,7 +28,7 @@ import java.util.Collections;
 
 @Configuration(proxyBeanMethods = false)
 @EnableTransactionManagement
-@EnableAerospikeRepositories(basePackages = "com.spring.mysql.api")
+@EnableAerospikeRepositories(basePackages = "com.cloud.provider.api.Repository")
 public class AerospikeConfig {
 
     @Bean
