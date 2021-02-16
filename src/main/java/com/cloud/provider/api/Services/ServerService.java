@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +18,7 @@ import com.cloud.provider.api.Repository.ServerRepository;
 import com.cloud.provider.api.model.Server;
 
 @Service
-
+@EnableTransactionManagement
 public class ServerService {
 
 	@Autowired
@@ -30,7 +32,7 @@ public class ServerService {
 		Server server = new Server();
 		stateMachine.start();
 		stateMachine.sendEvent("wait");
-		if (stateMachine.getState().getId().toString() == "active") {
+		if (stateMachine.getState().getId() == "active") {
 			LocalDateTime myObj = LocalDateTime.now();
 			Key key = new Key("test", "test", myObj.toString());
 			server.setKey(Buffer.bytesToHexString(key.digest));
@@ -49,7 +51,7 @@ public class ServerService {
 		return servers;
 	}
 
-	@Transactional(isolation = Isolation.SERIALIZABLE)
+	
 	public Server allocateServer(@PathVariable int size) {
 
 		Server server = serverRepository.findByFreeMemoryGreaterThanEqual(size);

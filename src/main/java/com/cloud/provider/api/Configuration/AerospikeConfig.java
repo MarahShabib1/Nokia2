@@ -31,6 +31,8 @@ import java.util.Collections;
 @EnableAerospikeRepositories(basePackages = "com.cloud.provider.api.Repository")
 public class AerospikeConfig {
 
+	
+	
     @Bean
     public AerospikeTemplate aerospikeTemplate(AerospikeClient aerospikeClient,
                                                MappingAerospikeConverter mappingAerospikeConverter,
